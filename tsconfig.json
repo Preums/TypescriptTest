@@ -21,6 +21,13 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
+    "src/**/*",
+    "tests/**/*"
+  ],
+  "exclude": [
+    "*.svg",
+    "*.png",
+    "*.jpg",
+    "*.css"
   ]
 }
