@@ -1,26 +1,17 @@
-import axios from 'axios';
-import { put, all, takeLatest, call } from "redux-saga/effects";
-
+import { put, all, takeLatest, call } from 'redux-saga/effects';
 
 import { postTypes } from '../redux/actionsTypes/postTypes';
-import { createTodoFailure, createTodoSuccess, deleteTodoFailure, deleteTodoSuccess, fetchTodosFailure, fetchTodosSuccess, switchTodoFailure, switchTodoSuccess } from '../redux/actions/postActions';
-
-const getPosts = () => axios.get(process.env.REACT_APP_TODOS_URL);
-const switchTodoCompleted = (id) => axios.put(`${process.env.REACT_APP_TODOS_URL}/${id}`);
-const createTodo = (todo) => axios({
-  method: 'POST',
-  withCredentials: false,
-  mode: 'no-cors',
-  url: process.env.REACT_APP_TODOS_URL,
-  headers: {
-    'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/json',
-  },
-  data: {
-  userId: 1,
-  title: todo
-}});
-const deleteTodo = (id) => axios.delete(`${process.env.REACT_APP_TODOS_URL}/${id}`);
+import { createTodo, deleteTodo, getPosts, switchTodoCompleted } from '../services/todoService';
+import {
+  createTodoFailure,
+  createTodoSuccess,
+  deleteTodoFailure,
+  deleteTodoSuccess,
+  fetchTodosFailure,
+  fetchTodosSuccess,
+  switchTodoFailure,
+  switchTodoSuccess
+} from '../redux/actions/postActions';
 
 function* fetchTodosSaga() {
   try {
@@ -75,7 +66,7 @@ function* createTodoSaga({ payload }) {
 
 function* deleteTodoSaga({ payload }) {
   try {
-    const response = yield call(deleteTodo, payload)
+    yield call(deleteTodo, payload)
     yield put(
       deleteTodoSuccess(payload)
     )
